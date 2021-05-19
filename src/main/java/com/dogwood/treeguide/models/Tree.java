@@ -429,12 +429,12 @@ public class Tree {
         this.berryNutSeedProduct = berryNutSeedProduct;
     }
 
-    public String getFodder_product() {
+    public String getFodderProduct() {
         return fodderProduct;
     }
 
-    public void setFodder_product(String fodder_product) {
-        this.fodderProduct = fodder_product;
+    public void setFodderProduct(String fodderProduct) {
+        this.fodderProduct = fodderProduct;
     }
 
     public String getPalatableHuman() {
