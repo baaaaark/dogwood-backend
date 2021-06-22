@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 
 @RestController
 @RequestMapping
@@ -18,8 +19,8 @@ public class CountyController {
         return CSVConverter.findAllTrees();
     }
 
-    @GetMapping(path = "tree/county")
-    public HashMap<String, List<String>> getAllCounties(){
+    @GetMapping(path = "county/all")
+    public TreeMap<String, List<String>> getAllCounties(){
         return CSVConverter.findAllCounties();
     }
 

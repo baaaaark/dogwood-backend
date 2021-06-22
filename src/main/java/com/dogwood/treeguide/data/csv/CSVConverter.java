@@ -11,7 +11,7 @@ public class CSVConverter {
 
     private static Boolean isDataLoaded = false;
     private static ArrayList<HashMap<String, String>> allTrees;
-    private static HashMap<String, List<String>> allCounties = new HashMap<>();
+    private static TreeMap<String, List<String>> allCounties = new TreeMap<>();
 
     public static ArrayList<HashMap<String, String>> findAllTrees() {
 
@@ -20,31 +20,26 @@ public class CSVConverter {
         return allTrees;
     }
 
-    public static HashMap<String, List<String>> findAllCounties() {
+    public static TreeMap<String, List<String>> findAllCounties() {
 
-        loadData();
-
-        List<String> allCountyArray = new ArrayList<>(Arrays.asList("Arkansas","Ashley","Baxter","Benton","Boone","Bradley","Calhoun","Carroll","Chicot","Clark","Clay","Cleburne","Cleveland","Columbia","Conway","Craighead","Crawford","Crittenden","Cross","Dallas","Desha","Drew","Faulkner","Franklin","Fulton","Garland","Grant","Greene","Hempstead","Hot Spring","Howard","Independence","Izard","Jackson","Jefferson","Johnson","Lafayette","Lawrence","Lee","Lincoln","Little River","Logan","Lonoke","Madison","Marion","Miller","Mississippi","Monroe","Montgomery","Nevada","Newton","Ouachita","Perry","Phillips","Pike","Poinsett","Polk","Pope","Prairie","Pulaski","Randolph","Saline","Scott","Searcy","Sebastian","Sevier","Sharp","St. Francis","Stone","Union","Van Buren","Washington","White","Woodruff","Yell"));
+        loadData(); //returns an HashMap<String, String> of
 
         for (HashMap<String, String> row : allTrees) {
 
             String treeName = row.get("scientific_name");
             String countyList = row.get("county");
-            countyList = countyList.substring( 3 , countyList.length() - 1 );
-            String[] treeCountyArray = countyList.split(", ");
-            List<String> treeCountyList = new ArrayList<>(Arrays.asList(treeCountyArray));
+            List<String> treeCountyList = new ArrayList<>(Arrays.asList(countyList.substring( 3 , countyList.length() - 1 ).split(", ")));
 
-            for (String allCounty: allCountyArray) {
-                List<String> countyTreeList =  new ArrayList<>();
+            for (String county: treeCountyList) {
+                if (allCounties.containsKey(county)) {
+                    allCounties.get(county).add(treeName);
+                }
+                else {
+                    allCounties.put(county, new ArrayList<String>());
+                    allCounties.get(county).add(treeName);
 
-                for (String county : treeCountyList) {
-                    if (county.toLowerCase().contains(allCounty.toLowerCase())) {
-                        countyTreeList.add(treeName);
-                    }
-                    allCounties.put(county, countyTreeList);
                 }
             }
-
         }
         return allCounties;
     }
@@ -60,20 +55,20 @@ public class CSVConverter {
             Reader in = new FileReader("/home/jason/Development/Projects/Dogwood/dogwood-backend/src/main/java/com/dogwood/treeguide/data/csv/LOCATION_DATA.csv");
             CSVParser parser = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(in);
             List<CSVRecord> records = parser.getRecords();
-            Integer numberOfColumns = records.get(0).size();
+            int numberOfColumns = records.get(0).size();
             String[] headers = parser.getHeaderMap().keySet().toArray(new String[numberOfColumns]);
 
             allTrees = new ArrayList<>();
 
             for (CSVRecord record : records) {
-                HashMap<String, String> newCounty = new HashMap<>();
+                HashMap<String, String> newTree = new HashMap<>();
 
                 for (String headerLabel : headers) {
 
-                    newCounty.put(headerLabel, record.get(headerLabel));
+                    newTree.put(headerLabel, record.get(headerLabel));
                 }
 
-                allTrees.add(newCounty);
+                allTrees.add(newTree);
             }
 
             isDataLoaded = true;
