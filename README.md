@@ -1,0 +1,3 @@
+This is the back end to a project I wanted to create.  As of right now, it is a Java Spring Boot app that will give a person the given tree species for any county in Arkansas in JSON format.
+
+This project was tougher than I thought it would be.  At first I used SQL to hold the static table of tree and county information only to realize a CSV parser was a better fit for the job.  I found myself having to deal with a lot of deployment and configuration issues that I found more detrimental to my progress in learning than helpful, so I sidelined it for a future date.  Any questions about this project can be directed to Jason Oliver at baaaaark@gmail.com

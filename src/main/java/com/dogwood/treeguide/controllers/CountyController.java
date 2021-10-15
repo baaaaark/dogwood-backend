@@ -20,7 +20,7 @@ public class CountyController {
     }
 
     @GetMapping(path = "county/all")
-    public TreeMap<String, List<String>> getAllCounties(){
+    public TreeMap<String, List<HashMap<String, String>>> getAllCounties(){
         return CSVConverter.findAllCounties();
     }
 

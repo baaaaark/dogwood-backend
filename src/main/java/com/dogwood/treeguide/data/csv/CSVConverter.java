@@ -11,7 +11,8 @@ public class CSVConverter {
 
     private static Boolean isDataLoaded = false;
     private static ArrayList<HashMap<String, String>> allTrees;
-    private static TreeMap<String, List<String>> allCounties = new TreeMap<>();
+    private static HashMap<String, String> eachTree;
+    private static TreeMap<String, List<HashMap<String, String>>> allCounties = new TreeMap<>();
 
     public static ArrayList<HashMap<String, String>> findAllTrees() {
 
@@ -20,7 +21,7 @@ public class CSVConverter {
         return allTrees;
     }
 
-    public static TreeMap<String, List<String>> findAllCounties() {
+    public static TreeMap<String, List<HashMap<String, String>>> findAllCounties() {
 
         loadData(); //returns an HashMap<String, String> of
 
@@ -28,15 +29,16 @@ public class CSVConverter {
 
             String treeName = row.get("scientific_name");
             String countyList = row.get("county");
+
             List<String> treeCountyList = new ArrayList<>(Arrays.asList(countyList.substring( 3 , countyList.length() - 1 ).split(", ")));
 
             for (String county: treeCountyList) {
                 if (allCounties.containsKey(county)) {
-                    allCounties.get(county).add(treeName);
+                    allCounties.get(county).add(eachTree);
                 }
                 else {
-                    allCounties.put(county, new ArrayList<String>());
-                    allCounties.get(county).add(treeName);
+                    allCounties.put(county, new ArrayList<HashMap<String, String>>());
+                    allCounties.get(county).add(eachTree); //this is where a map of each species will go
 
                 }
             }
